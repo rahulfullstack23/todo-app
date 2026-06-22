@@ -1,36 +1,41 @@
-const enterTask = document.getElementById("enterTask");
-const addTask = document.getElementById("addTask");
-const clearAll = document.getElementById("clearAll");
-const message = document.getElementById("message");
-const taskList = document.getElementById("taskList");
+const input = document.getElementById("todo-input");
 
-addTask.addEventListener("click", function () {
-  let task = enterTask.value;
-  if (task === "") {
-    taskList.innerText = "Please enter a task";
+const addBtn = document.getElementById("add-btn");
+
+const list = document.getElementById("todo-list");
+
+addBtn.addEventListener("click", addTodo);
+
+function addTodo(){
+  const text = input.value.trim();
+  if(text===""){
+    // list.innerText='Please enter a task';
     return;
   }
-
-  let li = document.createElement("li");
-  li.innerText = task;
-  let deleteBtn = document.createElement("button");
-  deleteBtn.innerText = "Delete";
-
-  deleteBtn.addEventListener("click", function () {
-    li.remove();
+  const li=document.createElement('li');
+  const checkbox=document.createElement('input');
+  checkbox.type="checkbox";
+  checkbox.addEventListener("change", function(){
+    if(checkbox.checked){
+      li.style.textDecoration="line-through";
+    }else{
+      li.style.textDecoration="none";
+    }
   });
 
-  li.appendChild(deleteBtn);
+const delBtn=document.createElement("button");
+delBtn.textContent="Delete";
 
-  taskList.appendChild(li);
-
-  enterTask.value = "";
-  message.innerText = "";
+delBtn.addEventListener("click", function(){
+  li.remove();
 });
 
-clearAll.addEventListener("click", function () {
-  const task = enterTask.value;
-  task === "";
-  taskList.innerHTML = "";
-  message.innerText = "All Tasks Cleared";
-});
+li.appendChild(checkbox);
+
+li.append(text);
+li.appendChild(delBtn);
+list.appendChild(li);
+
+input.value="";
+
+}
